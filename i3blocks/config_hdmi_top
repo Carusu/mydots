@@ -1,0 +1,148 @@
+[weather1]
+command=echo "<span font_desc='ConkyWeather 14'>"$(/home/antonio/.config/i3/resources/meteo1.script -F)"</span>"
+markup=pango
+interval=1800
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[weather2]
+command=echo  ""$(/home/antonio/.config/i3/resources/meteo1.script -T)""
+markup=pango
+interval=1800
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[weather3]
+command=echo  ""$(/home/antonio/.config/i3/resources/meteo1.script -t)"°"
+interval=1800
+color=#8FC2F6
+separator_block_width=20
+
+[net1]
+command=echo "<span font='WebHostingHub-Glyphs 11'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[net2]
+#wifi0 specifi
+command=echo ""$(cat /sys/class/net/wifi4/statistics/rx_bytes  | numfmt --to=iec --format='%.1f')" + "$(cat /sys/class/net/wifi4/statistics/tx_bytes  | numfmt --to=iec --format='%.1f')""
+interval=1
+color=#8FC2F6
+separator=false
+separator_block_width=15
+
+[net3]
+command=echo "<span font='WebHostingHub-Glyphs 11'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[net4]
+#Download speed
+command=/home/antonio/.config/i3/resources/net_speed.run wifi4 rx
+interval=1
+color=#8FC2F6
+separator=false
+separator_block_width=5
+
+[net5]
+command=echo "<span font='WebHostingHub-Glyphs 11'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[net6]
+#Upload speed
+command=/home/antonio/.config/i3/resources/net_speed.run wifi4 tx
+interval=1
+color=#8FC2F6
+separator_block_width=20
+
+[system1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 13'>﨎</span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[system2]
+command=/home/antonio/.config/i3blocks/blocklets/temps
+interval=3
+color=#8FC2F6
+separator=false
+separator_block_width=15
+
+[system3]
+command=echo "<span font='WebHostingHub-Glyphs 11'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[system4]
+command=/home/antonio/.config/i3blocks/blocklets/mem
+interval=2
+color=#8FC2F6
+separator=false
+separator_block_width=15
+
+[system5]
+command=echo "<span font='WebHostingHub-Glyphs 11'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[system6]
+command=/home/antonio/.config/i3blocks/blocklets/proc
+interval=6
+color=#8FC2F6
+separator_block_width=20
+
+[calendar1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 24'></span>"
+markup=pango
+#command=/home/antonio/.config/i3blocks/blocklets/calendar
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[calendar2]
+command=/home/antonio/.config/i3blocks/blocklets/calendar
+interval=1
+DATEFMT=+%a,%d %b %R
+# SHORTFMT=+%H:%M:%S
+LABEL= 
+HEIGHT=180
+WIDTH=220
+separator=true
+separator_block_width=20
+
+[clippy]
+command=/home/antonio/.config/i3blocks/blocklets/clippy
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[token1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 4'> </span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5

@@ -1,0 +1,111 @@
+conky.config = {
+-- set to yes if you want Conky to be forked in the background
+	cpu_avg_samples = 2,
+	net_avg_samples = 2,
+
+	out_to_console = false,
+
+	text_buffer_size = 5000,
+
+-- X font when Xft is disabled, you can pick one with program xfontsel
+--font 7x12
+--font 6x10
+--font 7x13
+--font 8x13
+--font 7x12
+--font *mintsmild.se*
+--font -*-*-*-*-*-*-34-*-*-*-*-*-*-*
+--font -artwiz-snap-normal-r-normal-*-*-100-*-*-p-*-iso8859-1
+
+-- Use Xft?
+	use_xft = true,
+
+-- Xft font when Xft is enabled
+	font = 'Bitstream Vera Sans Mono:size=10',
+
+--own_window_transparent no
+--own_window_colour hotpink
+-- Text alpha when using Xft
+	xftalpha = 0.8,
+
+	border_inner_margin = 5,
+	border_outer_margin = 6,
+
+-- Update interval in seconds
+	update_interval = 1,
+-- Create own window instead of using desktop (required in nautilus)
+	own_window = true,
+	own_window_transparent = false,
+	own_window_argb_visual = true,
+	own_window_type = 'normal',
+	own_window_class = 'Conky',
+	own_window_title = 'conky_mem',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_colour = '#4F4B5E',
+
+
+-- Use double buffering (reduces flicker, may not work for everyone)
+	double_buffer = true,
+
+
+
+-- Draw shades?
+	draw_shades = false,
+
+-- Draw outlines?
+	draw_outline = false,
+
+-- Draw borders around text
+	draw_borders = false,
+
+-- Stippled borders?
+	stippled_borders = no,
+
+
+-- border width
+	border_width = 1,
+
+-- Default colors and also border colors
+	default_color = 'white',
+	default_shade_color = 'white',
+	default_outline_color = 'white',
+
+
+
+-- Gap between borders of screen and text
+
+-- Add spaces to keep things from moving about?  This only affects certain objects.
+	use_spacer = 'none',
+
+-- Subtract file system buffers from used memory?
+	no_buffers = true,
+
+-- set to yes if you want all text to be in uppercase
+	uppercase = false,
+
+-- Text alignment, other possible values are commented
+--alignment top_left
+	gap_x = 120,
+	gap_y = 39,
+	alignment = 'top_right',
+--alignment bottom_left
+--alignment bottom_right
+
+-- Minimum size of text area
+	minimum_width = 1, minimum_height = 5,
+	maximum_width = 280,
+
+
+
+};
+
+conky.text = [[
+${color 8FC2F6}PROCESS           PID    MEM%
+${color fff68c}${top_mem name 1} ${top_mem pid 1} ${top_mem mem 1} 
+${color white}${top_mem name 2} ${top_mem pid 2} ${top_mem mem 2}
+${color white}${top_mem name 3} ${top_mem pid 3} ${top_mem mem 3} 
+#${color 007CFF}Mem Usage
+#${color white}${top_mem name 1} ${top_mem pid 1} ${top_mem cpu 1} ${top_mem mem 1}
+#${color 007CFF}${top_mem name 2} ${top_mem pid 2} ${top_mem cpu 2} ${top_mem mem 2}
+#${color 007CFF}${top_mem name 3} ${top_mem pid 3} ${top_mem cpu 3} ${top_mem mem 3}
+]];

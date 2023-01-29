@@ -1,0 +1,328 @@
+#!/bin/bash
+shopt -s extglob
+
+# options
+# -C, --city		Location city
+# -r, --windchill	Wind chill
+# -D, --winddir		Wind direction (degrees)
+# -w, --windcomp	Wind direction (compass)
+# -W, --windspeed	Wind speed
+# -f, --feelslike   Felt temperature
+# -H, --humidity	Atmosphere humidity
+# -V, --visibiliy	Visibility
+# -p, --pressure	Pressure
+# -T, --text		Current condition text
+# -i, --icon		Current condition icon
+# -F, --font		Current condition weather font
+
+# -t, --temp		Current temperature
+# --day=n forecast 
+#	where n can be 0,1,2,3 
+#	and forecast can be
+#		day			weekly day
+#		date		day date
+#		low			lowest temperature
+#		high		highest temperature
+#		code		forecast code
+#		text		forecast text
+#		font		forecast weather font
+#		
+
+key="$(cat /home/antonio/.key.meteo)"
+#Neuchatel 46.9967663,6.9453994
+#location='Neuchatel,CH'
+#latitude='46.9975859'
+#longitude='6.9453994'
+
+#Lausanne 46.5334143, 6.661678
+location='Lausanne,CH'
+latitude='46.5334143'
+longitude='6.661678'
+
+#location='IT/alessano' # Corsano
+#location='ITALY/sesto%20san%20giovanni' # Sesto San Giovanni
+#location='ITALY/Ferrara'
+#location='AT/Villach'
+lang=it
+units=ca
+
+temp_dir=/tmp
+temp_file_name=${location/\//_}
+temp_file="$temp_dir"/"$temp_file_name"
+
+url_prefix='https://api.darksky.net/forecast'
+url="$url_prefix"/"$key"/"$latitude","$longitude"?lang="$lang"\&units="$units"
+
+find  "$temp_dir" -maxdepth 0 -name "$temp_file_name" -mmin -220  | egrep '.*' > /dev/null 			
+
+# Test if temp has been modified more than 10 minutes ago. 
+# This is in order to avoid multiple download of the same file  if more 
+# data are requested.
+# | egrep '.*' serves the purpose to have an exit status not equal to 0 
+# when find has no match (it's an ugly hack, I know).
+
+if [[ $? -ne 0 ]]; then
+	wget "$url" -O "$temp_file" -o /dev/null
+fi
+
+function Weather_Font {
+ case $1 in
+	snow							)		#snow
+	echo "r"
+	shift
+	;;
+	rain							)		#rain
+	echo "j"
+	shift
+	;;
+	thunderstorm						)		#tstorms
+	echo "l"
+	shift
+	;;
+	partly-cloudy-day					)		#cloudy
+	echo "e"
+	shift
+	;;
+	nt_mostlycloudy						)		#mostly cloudy (night)
+	echo "D"
+	shift
+	;;
+	cloudy							)		#mostly cloudy (day)
+	echo "d"
+	shift
+	;;
+	partly-cloudy-night					)		#partly cloudy (night)
+	echo "C"
+	shift
+	;;
+	fog							)		#foggy
+	echo "0"
+	shift
+	;;
+	clear-night						)		#sunny (night....moony????)
+	echo "A"
+	shift
+	;;
+	sunny							)		#sunny
+	echo "a"
+	shift
+	;;
+	nt_clear						)		#clear (night)
+	echo "B"
+	shift
+	;;
+  	clear-day						)		#clear (day)
+	echo "b"
+	shift
+	;;
+	clear_day							)		#clear (day)
+	echo "b"
+	shift	
+	;;
+	sleet							)		#sleet
+	shift
+	;;
+	*wind*							)
+	echo "6"
+	shift
+	;;
+ esac
+}
+
+
+function Location_City {
+	jq -r '.current_observation.display_location.city' "$temp_file"
+}
+
+function Wind_Chill {
+	jq -r '.current_observation.windchill_c' "$temp_file"
+}
+
+function Wind_Direction_Degrees {
+	jq -r '.current_observation.wind_degrees' "$temp_file"
+}
+
+function Wind_Direction_Compass {
+	jq -r '.current_observation.wind_dir' "$temp_file"
+}
+
+function Wind_Speed {
+	jq -r '.currently.windSpeed' "$temp_file"
+}
+
+function Feel_Like {
+	jq -r '.currently.apparentTemperature' "$temp_file"
+}
+
+function Humidity {
+	jq -r '.currently.humidity' "$temp_file"
+}
+
+function Visibility {
+	jq -r '.currently.visibility' "$temp_file"
+}
+
+function Pressure {
+	jq -r '.currently.pressure' "$temp_file"
+}
+
+function Current_Condition_Text {
+	jq -r '.currently.summary' "$temp_file"
+}
+
+function Current_Condition_Icon {
+	jq -r '.currently.icon' "$temp_file"
+}
+
+function Current_Temperature {
+	jq -r '.currently.temperature' "$temp_file" | awk '{printf("%.0f\n", $0)}'
+}
+
+function Current_Icon {
+	jq -r '.currently.icon' "$temp_file"
+}
+
+function Day_n_Day {
+	row=$((44+$1))
+	awk  -F"\042" 'NR=='''$row''' {print $2}' "$temp_file"
+}
+
+function Day_n_Date {
+	row=$((44+$1))
+	awk  -F"\042" 'NR=='''$row''' {print $4}' "$temp_file"
+}
+
+function Day_n_Low {
+	row=$((44+$1))
+	awk  -F"\042" 'NR=='''$row''' {print $6}' "$temp_file"
+}
+
+function Day_n_High {
+	row=$((44+$1))
+	awk  -F"\042" 'NR=='''$row''' {print $8}' "$temp_file"
+}
+
+function Day_n_Condition_Text {
+	row=$((44+$1))
+	awk  -F"\042" 'NR=='''$row''' {print $10}' "$temp_file"
+}
+
+function Day_n_Condition_Code {
+	row=$((44+$1))
+	awk  -F"\042" 'NR=='''$row''' {print $12}' "$temp_file"
+}
+
+
+case "$1" in
+	-C|--city)
+    Location_City
+    shift
+    ;;
+    -r|--windchill)
+    Wind_Chill
+    shift
+    ;;
+    -D|--winddir)
+    Wind_Direction_Degrees
+    shift
+    ;;
+    -w|--windcomp)
+    Wind_Direction_Compass
+    shift
+    ;;
+    -W|--windspeed)
+    Wind_Speed
+    shift
+    ;;
+    -f|--feelslike)
+    Feel_Like
+    shift
+    ;;
+    -H|--humidity)
+    Humidity
+    shift
+    ;;
+    -V|--visibility)
+    Visibility
+    shift
+    ;;
+    -p|--pressure)
+    Pressure
+    shift
+    ;;
+    -T|--text)
+    Current_Condition_Text
+    shift
+    ;;
+    -i|--icon)
+    Current_Condition_Icon
+    shift
+    ;;
+    -F|--font)
+    Weather_Font "$(Current_Icon)"
+    shift
+    ;;
+    -t|--temp)
+    Current_Temperature
+    shift
+    ;;
+    -a|--sunrise)
+    Sunrise
+    shift
+    ;;
+    -z|--sunset)
+    Sunset
+    shift
+    ;;
+    --day=*)
+		n=$(echo "$1" | sed 's/[^0-9]//g')
+		forecast="$2"
+		case "$forecast" in
+		 day)			#weekly day
+		 Day_n_Day $n
+		 shift
+		 ;;
+		 date)			#date day
+		 Day_n_Date $n
+		 shift
+		 ;;
+		 low)			#low temperature
+		 Day_n_Low $n
+		 shift
+		 ;;
+		 high)			#high temperature
+		 Day_n_High $n
+		 shift
+		 ;;
+		 code)			#forecast code
+		 Day_n_Condition_Code $n
+		 shift
+		 ;;
+		 text)			#forecast text
+		 Day_n_Condition_text $n
+		 shift
+		 ;;
+		 font)			#forecast weather font
+		 Weather_Font "$(Day_n_Condition_Code $n)"
+		 shift
+		 ;;
+	     *)
+         # unknown option
+		 ;;
+		esac
+
+#		code		forecast code
+#		cond		forecast text
+#		font		forecast weather fontWeather_Font
+		
+	shift
+	;;
+    *)
+            # unknown option
+    ;;
+esac
+
+
+# -t, --temp		Current temperature
+# -a, --sunrise		Astronomy sunrise
+# -z, --sunset		Astronomy sunset

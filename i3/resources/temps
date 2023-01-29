@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "$(sensors | grep -m1 -oP 'Tdie.*?\+\K[0-9]+')""°C"
+
+
+if [[ $BLOCK_BUTTON -eq 1 ]]; then
+  	i3-msg -q "exec /home/antonio/bin/conky_temps_wrapper"
+fi
+

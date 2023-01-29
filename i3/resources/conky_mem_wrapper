@@ -1,0 +1,18 @@
+#!/bin/bash
+
+conky -c /home/antonio/.config/i3/resources/conkyrc_mem &
+conky_mem_pid=$!
+
+
+
+
+sleep 1
+
+current_window="$(xdotool getactivewindow getwindowname)"
+
+while [[ $current_window == conky_mem ]]; do
+  sleep 0.3
+  current_window="$(xdotool getactivewindow getwindowname)"
+done
+
+kill "$conky_mem_pid"

@@ -1,0 +1,65 @@
+[net1]
+command=/home/antonio/.config/i3/resources/wifi_output.run
+interval=12
+markup=pango
+separator=true
+separator_block_width=20
+
+
+[mpd 1]
+command=echo 
+interval=1800
+color=#cfa748
+separator=false
+separator_block_width=10
+
+[mpd 2]
+command=echo 'Status: '
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=0
+
+[mpd 3]
+command=mpc  | awk 'NR==2' | grep -o '[a-z]\+'| sed 's/.*/\u&/'
+interval=1
+color=#0198E1
+separator=false
+separator_block_width=10
+
+[mpd 3]
+command=mpc  | awk 'NR==1'
+interval=1
+color=#cfa748
+separator=false
+separator_block_width=10
+
+[mpd 4]
+command= echo from
+interval=once
+color=#0198E1
+separator=false
+separator_block_width=10
+
+[mpd 5]
+command=mpc -f %album% | head -1
+interval=1
+color=#cfa748
+separator=false
+separator_block_width=10
+
+[mpd 4]
+command= mpc status | awk 'NR==2 {print $3}'
+interval=1
+color=#0198E1
+separator=false
+separator_block_width=10
+
+[mpd 7]
+command=echo 
+interval=1800
+color=#cfa748
+separator=false
+separator_block_width=50
+
+

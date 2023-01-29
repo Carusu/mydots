@@ -1,0 +1,8 @@
+#! /bin/bash
+
+echo "$(free | grep Mem | awk '{ printf("%.0f%\n", $3/$2 * 100.0) }')"
+
+
+if [[ $BLOCK_BUTTON -eq 1 ]]; then
+  	i3-msg -q "exec  /home/antonio/bin/conky_mem_wrapper"
+fi

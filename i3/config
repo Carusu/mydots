@@ -1,0 +1,400 @@
+font pango:UbuntuMono Nerd Font 12
+
+
+
+#client.focused          #f0e88a #f0e88a #6B4958 #002fa7   #f0e88a
+#client.focused_inactive #002fa7 #002fa7 #6B4958 #f0e88a   #C0505E
+#client.unfocused        #002fa7 #002fa7 #6B4958 #f0e88a   #002fa7
+#client.urgent           #C0505E #C0505E #FFFFFF #002fa7   #C0505E
+#client.placeholder      #000000 #0C0C0C #6B4958 #000000   #0C0C0C
+client.focused          #002fa7 #002fa7 #f4af00 #002fa7   #002fa7
+client.focused_inactive #44475A #44475A #f4af00 #44475A   #44475A
+client.unfocused        #44475A #44475A #f4af00 #44475A   #44475A
+client.urgent           #44475A #F94D1B #f4af00 #F94D1B   #F94D1B
+client.placeholder      #282A36 #282A36 #f4af00 #282A36   #282A36
+
+client.background #f4af00
+
+
+set $mod Mod4
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec alacritty
+
+# kill focused window
+bindsym $mod+Shift+c kill
+
+# start dmenu (a program launcher)
+bindsym Mod1+F2 exec grun
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+
+# Back and forth, alt tab like
+bindsym Mod1+Tab workspace back_and_forth
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+d focus child
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+Alt+minus scratchpad show
+
+
+
+# reload the configuration file
+bindsym $mod+Ctrl+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        bindsym Left        resize shrink width 10 px or 10 ppt
+        bindsym Down        resize grow height 10 px or 10 ppt
+        bindsym Up          resize shrink height 10 px or 10 ppt
+        bindsym Right       resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+# Personal Bindings
+
+# Section Volume
+
+bindsym $mod+l exec pactl set-sink-volume 0  '-7%' 
+bindsym $mod+p exec pactl set-sink-volume 0  '+7%'
+bindsym $mod+m exec pactl set-sink-mute 0 toggle
+
+#	Section Mouse
+
+# The middle button over a titlebar kills the window
+bindsym --release button2 kill
+
+#	Section mpd
+
+bindsym $mod+F10 exec mpc toggle
+bindsym $mod+F11 exec mpc next
+bindsym $mod+F9  exec mpc prev
+bindsym $mod+F12 exec mpc stop
+
+# Section screensaver
+
+bindsym $mod+Shift+l exec i3lock -t -i ~/.config/i3/resources/pics/bosd98.png
+
+
+#	Section miscellaneous
+bindsym $mod+x [urgent=latest] focus
+#	set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown mode "$mode_system" {
+#    bindsym l exec --no-startup-id i3exit lock, mode "default"
+#    bindsym e exec --no-startup-id i3exit logout, mode "default"
+#    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+#    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+#    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+#   bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"  
+
+##	back to normal: Enter or Escape
+#    bindsym Return mode "default"
+#    bindsym Escape mode "default"
+#	}
+	
+bindsym $mod+Pause mode "$mode_system"
+
+#bindsym XF86Display exec /home/antonio/bin/HDMI-A-0.toggle
+
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+
+
+
+bar {
+    output                HDMI-A-0
+    status_command        i3blocks -c /home/antonio/.config/i3blocks/config_hdmi_top
+    workspace_buttons     yes
+    position              top
+    tray_output           none
+    font                  -misc-fixed-medium-r-normal--13-120-75-75-C-70-ISO-8859-8.unicodeMap
+    font                  pango:UbuntuMono Nerd Font,Icons, pango:WebHostingHub-Glyphs, pango:Cousine, FontAwesome  13
+    colors {
+      background          #282A36
+      statusline          #F8F8F2
+      separator           #44475A
+      focused_workspace   #f8f8ff  #f8f8ff  #002fa7
+      inactive_workspace  #333333  #333333  #888888
+      active_workspace    #002fa7  #002fa7  #f8f8ff
+      urgent_workspace    #F94D1B  #F94D1B  #f8f8ff
+    }
+}
+
+
+
+bar {
+    output                DVI-D-0
+    status_command        i3blocks -c /home/antonio/.config/i3blocks/config_hdmi_top_left
+    workspace_buttons     yes
+    position              top
+    tray_output           none
+    font                  -misc-fixed-medium-r-normal--13-120-75-75-C-70-ISO-8859-8.unicodeMap
+    font                  pango:UbuntuMono Nerd Font,Icons, pango:WebHostingHub-Glyphs, pango:Cousine, FontAwesome  13
+    colors {
+      background          #282A36
+      statusline          #F8F8F2
+      separator           #44475A
+      focused_workspace   #f8f8ff  #f8f8ff  #002fa7
+      inactive_workspace  #333333  #333333  #888888
+      active_workspace    #002fa7  #002fa7  #f8f8ff
+      urgent_workspace    #F94D1B  #F94D1B  #f8f8ff
+    }
+}
+        
+bar {
+    output                HDMI-A-0
+    status_command        i3blocks -c /home/antonio/.config/i3blocks/config_hdmi_bottom
+    tray_output           HDMI-A-0
+    position              bottom
+    workspace_buttons     no
+    font                  -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+    font                  pango:UbuntuMono Nerd Font, Icons 12
+
+    colors {
+      background          #282A36
+      statusline          #F8F8F2
+      separator           #44475A
+      focused_workspace   #f8f8ff  #f8f8ff  #002fa7
+      inactive_workspace  #333333  #333333  #888888
+      active_workspace    #002fa7  #002fa7  #f8f8ff
+      urgent_workspace    #F94D1B  #F94D1B  #f8f8ff
+    }
+}
+
+
+
+# Workspaces
+set $tag1	1|
+set $tag2	2|
+set $tag3	3|
+set $tag4	4|
+set $tag5	5|
+set $tag6	6|
+set $tag7	7|
+set $tag8	8|ﱅ
+set $tag9	9
+set $tag10	10|
+set $tag11	11|Schematic
+set $tag12	12|Cadence
+
+workspace $tag1 output HDMI-A-0
+workspace $tag2 output DVI-D-0
+workspace $tag3 output DVI-D-0
+workspace $tag4 output HDMI-A-0
+workspace $tag5 output HDMI-A-0
+workspace $tag6 output HDMI-A-0
+workspace $tag7 output HDMI-A-0
+workspace $tag8 output HDMI-A-0
+workspace $tag9 output DVI-D-0
+workspace $tag10 output HDMI-A-0
+workspace $tag11 output HDMI-A-0
+workspace $tag12 output DVI-D-0
+
+
+# switch to workspace
+bindsym $mod+1 workspace $tag1
+bindsym $mod+2 workspace $tag2
+bindsym $mod+3 workspace $tag3
+bindsym $mod+4 workspace $tag4
+bindsym $mod+5 workspace $tag5
+bindsym $mod+6 workspace $tag6
+bindsym $mod+7 workspace $tag7
+bindsym $mod+8 workspace $tag8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace $tag10
+bindsym $mod+F1 workspace $tag11
+bindsym $mod+F2 workspace $tag12
+
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $tag1
+bindsym $mod+Shift+2 move container to workspace $tag2
+bindsym $mod+Shift+3 move container to workspace $tag3
+bindsym $mod+Shift+4 move container to workspace $tag4
+bindsym $mod+Shift+5 move container to workspace $tag5
+bindsym $mod+Shift+6 move container to workspace $tag6
+bindsym $mod+Shift+7 move container to workspace $tag7
+bindsym $mod+Shift+8 move container to workspace $tag8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace $tag10
+bindsym $mod+Shift+F1 move container to workspace $tag11
+bindsym $mod+Shift+F2 move container to workspace $tag12
+
+# cant rembember what this is for
+exec --no-startup-id /home/antonio/.config/i3/resources/i3_focus.run 
+
+#for_window [class=".*"] border pixel 20
+
+for_window [class="smplayer"] floating enable
+
+for_window [class="MPlayer"] floating enable
+
+for_window [class="guake"] floating enable
+for_window [class="Main.py"] floating enable
+
+assign [class="Chromium" window_role="browser"] $tag1
+for_window [class="Chromium" window_role="browser"] focus
+
+assign [class="firefox" instance="Navigator" window_role="browser"] $tag1
+for_window [class="firefox" instance="Navigator" window_role="browser"] focus
+
+assign [class="zoom"] $tag4
+
+assign [class="telegram-desktop"] $tag5
+for_window [class="telegram-desktop"] focus
+assign [class="Telegram"] $tag5
+for_window [class="Telegram"] focus
+
+assign [class="Skype"] $tag4
+for_window [class="skype"] focus
+for_window [class="Skype" window_role="CallWindow"] floating enable
+assign [class="Skype" window_role="CallWindow"] workspace current
+for_window [class="Skype" title="Trasferimenti file"] floating enable
+
+assign [class="Evolution"] $tag2
+for_window [class="Evolution"] focus
+
+assign [class="Nautilus"] $tag3
+assign [class="Thunar"] $tag3
+# for_window [class="Thunar"] focus
+# for_window [class="nautilus"] focus
+
+
+assign [class="Chromium"  window_role="pop-up"] $tag5
+for_window [class="Chromium"  window_role="pop-up"] focus
+
+assign [class="MATLAB.*" title="^Fig"] $tag9
+for_window [class="MATLAB.*" title="^Fig"] no_focus
+
+assign [class="Cherrytree"] $tag8
+for_window [class="Cherrytree"] focus
+
+assign [title="DS PDF Viewer - Audience Window"] $tag4
+assign [title="DS PDF Viewer - Secondary Window"] $tag3
+assign [title="VMware Workstation 12 Player"] $tag3
+for_window [title="VMware Workstation 12 Player"] focus
+
+
+# make notifications behave
+for_window [class="Xfce4-notifyd"] floating enable
+for_window [class="Xfce4-notifyd"] border none
+for_window [class="Orage"] floating enable
+for_window [class="Orage"] border none
+for_window [class="Galculator"] floating enable
+for_window [class="Galculator"] border none
+for_window [class="YADWIN"] border none
+for_window [instance="Download"] floating enable
+for_window [class="Pnmixer"] floating enable
+for_window [window_role="plugin_ui"] floating enable
+for_window [title="Menu Update"] floating enable
+#for_window [title="___"] floating enable
+for_window [title=".*Parameters.*"] floating enable
+for_window [title=".*Simulink.*"] floating enable
+for_window [title="Block Properties.*"] floating enable
+
+for_window [class="zoom" instance="zoom" title="zoom"] floating enable
+
+for_window [class="Yad"] floating enable
+for_window [class="Yad"] border none
+
+for_window [class="Conky" instance="Conky" title="conky_proc"] focus
+for_window [class="Conky" instance="Conky" title="conky_mem"] focus
+for_window [class="Conky" instance="Conky" title="conky_temps"] focus
+
+for_window [title="pmem-usage"] floating enable
+for_window [title="pmem-usage"] border none
+for_window [title="pmem-usage"] focus
+
+for_window [title="pcpu-usage"] floating enable
+for_window [title="pcpu-usage"] border none
+for_window [title="pcpu-usage"] focus
+
+for_window [title="tempstat"] floating enable
+for_window [title="tempstat"] border none
+for_window [title="tempstat"] focus
+
+for_window [title="PyQtwidget"] floating enable
+for_window [title="PyQtwidget"] border none
+for_window [title="PyQtwidget"] focus
+
+for_window [title="Programma della settimana"] floating enable
+for_window [title="Programma della settimana"] border none
+for_window [title="Programma della settimana"] focus
+
+
+exec xautolock -time 15 -locker i3lock -t -i ~/.config/i3/resources/pics/bosd98.png
+exec --no-startup mpd
+exec --no-startup-id picom --config /home/antonio/.config/compton.conf
+exec --no-startup-id guake
+exec --no-startup-id /usr/lib64/xfce4/notifyd/xfce4-notifyd
+exec --no-startup-id pasystray
+exec --no-startup-id parcellite
+exec --no-startup-id udiskie
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id nextcloud
+exec --no-startup-id nitrogen --restore
+
+exec --no-startup-id i3-msg 'workspace $tag2; exec env GTK_THEME=Arc-Darker /bin/evolution -c task'
+exec --no-startup-id i3-msg 'workspace $tag3; exec /bin/nemo'
+exec --no-startup-id /bin/telegram-desktop -startintray
+exec --no-startup-id /bin/skypeforlinux
+#exec --no-startup-id i3-msg 'workspace $tag4; exec /usr/bin/zoom'
+exec --no-startup-id i3-msg 'workspace $tag1; exec /bin/firefox'

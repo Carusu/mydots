@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+cpu_temp="$(sensors | grep -m3 -oP 'Tdie.*?\+\K[0-9]+')"
+gpu_temp="$(sensors | grep -m3 -oP 'edge.*?\+\K[0-9]+')"
+wifi_temp="$(sensors | grep -m3 -oP 'temp1.*?\+\K[0-9]+')"
+
+
+echo 'CPU temp:       '"$cpu_temp"'°C   (crit: 70°C)'
+echo 'GPU temp:       '"$gpu_temp"'°C   (crit: 94°C)'
+#echo 'wifi-card temp: '"$wifi_temp"'°C'

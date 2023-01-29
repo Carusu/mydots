@@ -1,0 +1,141 @@
+[uptime1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 18'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[uptime2]
+command=uptime -p
+interval=1
+color=#8FC2F6
+separator_block_width=20
+
+[disk1]
+command=echo "<span font='WebHostingHub-Glyphs 11'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[disk2]
+full_text=ROOT:
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[disk3]
+command=echo ""$(df /dev/nvme0n1p2 --output=used -k -h | sed -e 1d -e "s/ //g")"/"$(df /dev/nvme0n1p2 --output=size -k -h | sed -e 1d -e "s/ //g")""
+markup=pango
+interval=15
+color=#8FC2F6
+separator=false
+separator_block_width=15
+
+[disk4]
+full_text=PKG:
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[disk5]
+command=echo ""$(df /dev/sda1 --output=used -k -h | sed -e 1d -e "s/ //g")"/"$(df /dev/sda1 --output=size -k -h | sed -e 1d -e "s/ //g")""
+markup=pango
+interval=15
+color=#8FC2F6
+separator=false
+separator_block_width=15
+
+[disk6]
+full_text=HOME:
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[disk7]
+command=echo ""$(df /dev/nvme0n1p3 --output=used -k -h | sed -e 1d -e "s/ //g")"/"$(df /dev/nvme0n1p3 --output=size -k -h | sed -e 1d -e "s/ //g")""
+markup=pango
+interval=15
+color=#8FC2F6
+separator=false
+separator_block_width=15
+
+[disk8]
+full_text=DATA:
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[disk9]
+command=echo ""$(df /dev/sda2 --output=used -k -h | sed -e 1d -e "s/ //g")"/"$(df /dev/sda2 --output=size -k -h | sed -e 1d -e "s/ //g")""
+markup=pango
+interval=15
+color=#8FC2F6
+separator_block_width=20
+
+[disk9]
+full_text=DATA2:
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[disk10]
+command=echo ""$(df /dev/sdb1 --output=used -k -h | sed -e 1d -e "s/ //g")"/"$(df /dev/sdb1 --output=size -k -h | sed -e 1d -e "s/ //g")""
+markup=pango
+interval=15
+color=#8FC2F6
+separator_block_width=20
+
+[sys1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 24'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[sys2]
+command=uname -r
+markup=pango
+interval=15
+color=#8FC2F6
+separator_block_width=20
+
+[calendar1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 24'></span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=5
+
+[calendar2]
+command=/home/antonio/.config/i3blocks/blocklets/calendar
+interval=1
+DATEFMT=+%a,%d %b %R
+# SHORTFMT=+%H:%M:%S
+LABEL= 
+HEIGHT=180
+WIDTH=220
+separator=false
+separator_block_width=0
+
+[token1]
+command=echo "<span font='UbuntuMono Nerd Font Mono 4'> </span>"
+markup=pango
+interval=once
+color=#ffffff
+separator=false
+separator_block_width=0

@@ -1,0 +1,71 @@
+#!/bin/bash
+ 
+# This shell script shows the network speed, both received and transmitted.
+ 
+# Usage: net_speed.sh interface  direction
+# direction can be rx for download and tx for download
+#   e.g: net_speed.sh eth0 rx
+ 
+ 
+# Global variables
+interface=$1
+received_bytes=""
+old_received_bytes=""
+transmitted_bytes=""
+old_transmitted_bytes=""
+ 
+ 
+# This function parses /proc/net/dev file searching for a line containing $interface data.
+# Within that line, the first and ninth numbers after ':' are respectively the received and transmited bytes.
+get_rx_bytes()
+{
+    cat /sys/class/net/"$1"/statistics/rx_bytes
+}
+
+get_tx_bytes()
+{
+    cat /sys/class/net/$1/statistics/tx_bytes
+}
+ 
+ 
+# Function which calculates the speed using actual and old byte number.
+# Speed is shown in KByte per second when greater or equal than 1 KByte per second.
+# This function should be called each second.
+get_rx_velocity()
+{
+    value=$1    
+    old_value=$2
+ 
+    let vel=$value-$old_value
+    echo "$vel"
+}
+
+get_tx_velocity()
+{
+    value=$1    
+    old_value=$2
+ 
+    let vel=$value-$old_value
+    echo "$vel"
+}
+ 
+ 
+ if [[ $2 == rx ]]; then
+   
+	old_received_bytes="$(get_rx_bytes "$1")"
+	sleep 1;
+	new_received_bytes="$(get_rx_bytes "$1")"
+	vel_recv=$(get_rx_velocity $new_received_bytes $old_received_bytes)
+	vel_recv_conv="$(echo  "$vel_recv" | numfmt --to=iec --format=%.1f)"
+	printf  '%7.6s\n' "$vel_recv_conv"
+fi
+
+ if [[ $2 == tx ]]; then
+   
+	old_transmitted_bytes="$(get_tx_bytes "$1")"
+	sleep 1;
+	new_transmitted_bytes="$(get_tx_bytes "$1")"
+	vel_trans=$(get_tx_velocity $new_transmitted_bytes $old_transmitted_bytes)
+	vel_trans_conv="$(echo  "$vel_trans" | numfmt --to=iec --format=%.1f)"
+	printf  '%7.6s\n' "$vel_trans_conv"
+fi

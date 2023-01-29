@@ -1,0 +1,9 @@
+#! /bin/bash
+
+echo "$(/home/antonio/bin/cpu_average.run)"'%' 
+
+
+if [[ $BLOCK_BUTTON -eq 1 ]]; then
+  	i3-msg -q "exec  /home/antonio/bin/conky_proc_wrapper"
+fi
+

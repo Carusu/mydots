@@ -1,0 +1,42 @@
+#!/bin/bash
+
+
+function q_dbm() {
+  dev="wifi4"
+  quality_dbm="$(iw dev "$dev" link | awk '/signal:/ {print $2}')"
+  echo "$quality_dbm"
+  #quality_dbm="$(nmcli dev wifi list | awk '/\*/{if (NR!=1) {print $8}}')"
+  #echo "-$quality_dbm"
+}
+
+function q_pc_r() {
+  quality_dbm="$(q_dbm)"
+  if [[  quality_dbm -lt -92 ]]; then
+    quality_pc=1
+  elif  [[  quality_dbm -gt -21 ]]; then
+    quality_pc=100
+  else
+    quality_pc_not_rounded="$(echo  '((-0.0154*'"$quality_dbm"'*'"$quality_dbm"')-(0.3794*'"$quality_dbm"')+98.182)' | bc  ) "
+    quality_pc_rounded="$(echo "$quality_pc_not_rounded"| awk '{printf("%d\n",$1 + 0.5)}')"
+  fi
+  echo "$quality_pc_rounded"
+}
+
+function q_index() {
+  quality_dbm="$(q_dbm)"
+  if [[  quality_dbm -gt -60 ]]; then
+    quality_index=2
+  elif [[   quality_dbm -lt -70 ]]; then
+    quality_index=0
+  else
+    quality_index=1
+  fi
+  echo "$quality_index"
+}
+
+case $1 in
+dbm)  q_dbm;;
+pc) q_pc_r;;
+index)  q_index;;
+*) echo error;;
+esac

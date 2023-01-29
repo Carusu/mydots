@@ -1,0 +1,37 @@
+#!/bin/bash
+
+color_str='#0198E1'
+color_med='#cfa748'
+color_weak='#b40000'
+
+color_blue='#0198E1'
+color_white='#ffffff'
+
+
+interface=wifi4
+connection_status="$(iw dev "$interface" link | grep 'Not connected.')"
+# 0 if connected, 1 otherwise
+
+if [[ $connection_status -eq 0 ]]; then
+    
+    signal_str_pc="$($HOME/bin/wifi_signal_quality.run pc)"
+    ssid="$(iw dev "$interface" link | awk 'NR==2 {print $2}')"
+    quality_index="$($HOME/bin/wifi_signal_quality.run index)"
+    
+    case $quality_index in
+        2) color="$color_str";;
+        1) color="$color_med";;
+        0) color="$color_weak";;
+        *) echo error;;
+    esac
+
+    global_IP="$(curl -s ifconfig.me/ip)"
+    local_IP="$(ip route get 1 | awk 'NR==1 {print $7}')"
+
+
+    echo '<span foreground="'"$color"'">直' ESSID: "$ssid" Pwr: "$signal_str_pc"'%</span>''<span foreground="'"$color_white"'">   </span>''<span foreground="'"$color_blue"'">'"$local_IP"'</span>''<span foreground="'"$color_white"'">   </span>''<span foreground="'"$color_blue"'">'"$global_IP"'</span>'
+else
+    color="$color_weak"
+    echo '<span foreground="'"$color"'">睊'" $interface" disconnected.'</span>'
+fi
+

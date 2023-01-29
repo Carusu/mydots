@@ -1,0 +1,16 @@
+Packages:
+	i3-block
+	yad
+	conky
+	xdotool
+	jq
+	mpd
+	mpc
+Fonts
+	UbuntuMono Nerd Font Mono
+	UbuntuMono Nerd Font
+	Icons
+	WebHostingHub-Glyphs
+	FontAwesome
+
+

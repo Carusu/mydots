@@ -1,0 +1,18 @@
+#!/bin/bash
+
+conky -c /home/antonio/.config/i3/resources/conkyrc_temps &
+conky_temps_pid=$!
+
+
+
+
+sleep 1
+
+current_window="$(xdotool getactivewindow getwindowname)"
+
+while [[ $current_window == conky_temps ]]; do
+  sleep 0.3
+  current_window="$(xdotool getactivewindow getwindowname)"
+done
+
+kill "$conky_temps_pid"
